@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8">
+		<title>D3: SVG</title>
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+		<style type="text/css">
+			/* No style rules here yet */
+		</style>
+</head>
+<body>
+
+    <!--<svg height="100" width="100">-->
+      <!--<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />-->
+    <!--</svg>-->
+
+    <script type="text/javascript">
+        var w = 1000;
+        var h = 500;
+
+        data = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+        var colors = d3.scale.category10();
+
+        //Create SVG element
+        var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
+
+        svg.selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function (d, i) {
+                return 75 + (i * 80);
+            })
+            .attr("cy", h / 2)
+            .attr("r", function (d, i) {
+                return d;
+            })
+            .attr("fill", function(d, i) {
+                return colors(i);
+            })
+            .attr("opacity", "0.5");
+
+    </script>
+</body>
+</html>

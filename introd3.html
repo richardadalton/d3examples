@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8">
+		<title>D3: Force</title>
+        <script type="text/javascript" src="d3/d3.v3.js"></script>
+		<style type="text/css">
+			/* No style rules here yet */
+		</style>
+</head>
+<body>
+
+
+<script type="text/javascript">
+    var data = [{"name": 'Tom', "age": 42}, {"name": 'Dick', "age": 21}, {"name": 'Harry', "age": 34}];
+
+//	var data = [1, 3, 5, 13, 45, 67, 8]
+
+    var body = d3.select("body");
+    var paragraphs = body.selectAll("p");
+
+    paragraphs
+        .data(data)
+        .enter()
+        .append("p")
+        .text(function (d) {
+            return d.name + " (" + d.age + ")";
+        });
+
+</script>
+
+
+</body>
+</html>
