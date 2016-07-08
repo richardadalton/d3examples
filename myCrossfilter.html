@@ -27470,6 +27470,13 @@
             return d.price;
         });
 
+        var yearDim = ndx.dimension(function(d){
+            return d.Year;
+        });
+
+        var year_total = yearDim.group().reduceSum(function(d){
+            return d.price;
+        });
 
         var minDate = dateDim.bottom(1)[0].date;
         var maxDate = dateDim.top(1)[0].date;
@@ -27483,13 +27490,6 @@
                 .group(prices)
                 .x(d3.time.scale().domain([minDate,maxDate]));
 
-        var yearDim = ndx.dimension(function(d){
-            return d.Year;
-        });
-
-        var year_total = yearDim.group().reduceSum(function(d){
-            return d.price;
-        });
 
         var hitspieChart = dc.pieChart("#chart­ring-year");
 
