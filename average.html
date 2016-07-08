@@ -93,8 +93,10 @@
                 .x(d3.scale.ordinal())
                 .xUnits(dc.units.ordinal)
                 .valueAccessor(function (p) {
-                    console.log(p)
-                    return p.value.total / p.value.count;
+                    if (p.value.count == 0)
+                            return 0;
+                    else
+                            return p.value.total / p.value.count;
                 })
 
         dc.renderAll();
