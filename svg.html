@@ -1,33 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-		<meta charset="utf-8">
-		<title>D3: SVG</title>
-        <script type="text/javascript" src="d3/d3.v3.js"></script>
-		<style type="text/css">
-			/* No style rules here yet */
-		</style>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script type="text/javascript" src="d3/d3.v3.js"></script>
+    <title>d3 Examples</title>
 </head>
 <body>
 
-    <!--<svg height="100" width="100">-->
-      <!--<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />-->
-    <!--</svg>-->
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="resources/d3logo.png">
+            </div>
+            <div class="col-md-10">
+                <h1 class="logo">D3 Examples</h1>
+                <h4>Richard Dalton</h4>
+                <div class="btn-group btn-group-md" role="group" aria-label="...">
+                    <a href="index.html" class="btn btn-default" role="button">Home</a>
+                    <a href="svg.html" class="btn btn-default" role="button">SVG</a>
+                    <a href="http://www.d3js.org" class="btn btn-default" role="button">D3.js</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
-    <script type="text/javascript">
-        var w = 1000;
-        var h = 500;
+<div class="container">
+    <div id = "draw_here"></div>
 
-        data = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
-        var colors = d3.scale.category10();
+    <h3>Data Driven Documents</h3>
+    <p>D3 allows document elements to be generated from data. Hence the name Data Driven Documents (D3).</p>
+    <p>The circles plotted above are generated using scalable vector graphics (svg) and based on a simple
+    array, which is passed through D3 to generate the necessary SVG elements.</p>
 
-        //Create SVG element
-        var svg = d3.select("body")
-                    .append("svg")
-                    .attr("width", w)
-                    .attr("height", h);
+<pre>
+    var w = 1000;
+    var h = 200;
 
-        svg.selectAll("circle")
+    data = [50, 60, 70, 30, 20, 10, 20, 20, 30, 40];
+    var colors = d3.scale.category10();
+
+    //Create SVG element
+    var svg = d3.select("#draw_here")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+    svg.selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function (d, i) {
+                return 75 + (i * 80);
+            })
+            .attr("cy", h / 2)
+            .attr("r", function (d, i) {
+                return d;
+            })
+            .attr("fill", function(d, i) {
+                return colors(i);
+            })
+            .attr("opacity", "0.5");
+</pre>
+
+</div>
+
+<script type="text/javascript">
+    var w = 1000;
+    var h = 200;
+
+    data = [50, 60, 70, 30, 20, 10, 20, 20, 30, 40];
+    var colors = d3.scale.category10();
+
+    //Create SVG element
+    var svg = d3.select("#draw_here")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+    svg.selectAll("circle")
             .data(data)
             .enter()
             .append("circle")
@@ -43,6 +96,9 @@
             })
             .attr("opacity", "0.5");
 
-    </script>
+</script>
+
 </body>
 </html>
+
+
