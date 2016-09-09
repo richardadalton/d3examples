@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script type="text/javascript" src="d3/d3.v3.js"></script>
+
     <title>d3 Examples</title>
 </head>
 <body>
@@ -20,6 +21,7 @@
                 <div class="btn-group btn-group-md" role="group" aria-label="...">
                     <a href="index.html" class="btn btn-default" role="button">Home</a>
                     <a href="svg.html" class="btn btn-default" role="button">SVG</a>
+                    <a href="barChart.html" class="btn btn-default" role="button">Bar</a>
                     <a href="http://www.d3js.org" class="btn btn-default" role="button">D3.js</a>
                 </div>
             </div>
@@ -28,18 +30,22 @@
 </header>
 
 <div class="container">
-    <div id = "draw_here"></div>
+    <h3>Scalable Vector Graphics</h3>
+    <p>Scalable Vector Graphics (SVG) can be rendered using markup similar to html.</p>
+    <p>This makes them ideal for rendering graphics based using D3. An SVG element is added to the document,
+    then the data is turned into image elements like circles, lines etc, with attributes like center position,
+    radius, fill color, and opacity.</p>
 
-    <h3>Data Driven Documents</h3>
-    <p>D3 allows document elements to be generated from data. Hence the name Data Driven Documents (D3).</p>
-    <p>The circles plotted above are generated using scalable vector graphics (svg) and based on a simple
-    array, which is passed through D3 to generate the necessary SVG elements.</p>
+    <div class="col-md-6">
+        <div id="draw_here"></div>
+    </div>
 
+    <div class="col-md-6">
 <pre>
     var w = 1000;
     var h = 200;
 
-    data = [50, 60, 70, 30, 20, 10, 20, 20, 30, 40];
+    data = [50, 60, 70, 30, 20, 10];
     var colors = d3.scale.category10();
 
     //Create SVG element
@@ -64,14 +70,14 @@
             })
             .attr("opacity", "0.5");
 </pre>
-
+    </div>
 </div>
 
-<script type="text/javascript">
-    var w = 1000;
+<script>
+    var w = 500;
     var h = 200;
 
-    data = [50, 60, 70, 30, 20, 10, 20, 20, 30, 40];
+    data = [50, 60, 70, 30, 20, 10];
     var colors = d3.scale.category10();
 
     //Create SVG element
@@ -95,10 +101,7 @@
                 return colors(i);
             })
             .attr("opacity", "0.5");
-
 </script>
 
 </body>
 </html>
-
-
