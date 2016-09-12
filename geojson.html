@@ -59,7 +59,7 @@
     var industryChart = dc.bubbleChart("#industry-chart");
     var roundChart = dc.bubbleChart("#round-chart");
 
-    d3.csv("http://dc-js.github.io/dc.js/vc/vc.csv", function (csv) {
+    d3.csv("https://dc-js.github.io/dc.js/vc/vc.csv", function (csv) {
         var data = crossfilter(csv);
 
         var states = data.dimension(function (d) {
@@ -109,7 +109,7 @@
                 }
         );
 
-        d3.json("http://dc-js.github.io/dc.js/geo/us-states.json", function (statesJson) {
+        d3.json("https://dc-js.github.io/dc.js/geo/us-states.json", function (statesJson) {
             usChart.width(990)
                     .height(500)
                     .dimension(states)
