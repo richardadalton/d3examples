@@ -1,114 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-		<meta charset="utf-8">
-		<title>D3: Force</title>
-      <script type="text/javascript" src="d3/d3.v3.js"></script>
-		<style type="text/css">
-			/* No style rules here yet */
-		</style>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script type="text/javascript" src="d3/d3.v3.js"></script>
+
+	<title>d3 Examples</title>
 </head>
 <body>
-		<script type="text/javascript">
 
-			//Width and height
-			var w = 1000;
-			var h = 1000;
+<header>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+				<img src="resources/d3logo.png">
+			</div>
+			<div class="col-md-10">
+				<h1 class="logo">D3 Examples</h1>
+				<h4>Richard Dalton</h4>
+				<div class="btn-group btn-group-md" role="group" aria-label="...">
+					<a href="index.html" class="btn btn-default" role="button">Home</a>
+					<a href="svg.html" class="btn btn-default" role="button">SVG</a>
+					<a href="barChart.html" class="btn btn-default" role="button">Bar</a>
+					<a href="pieChart.html" class="btn btn-default" role="button">Pie</a>
+					<a href="bubbleChart.html" class="btn btn-default" role="button">Bubble</a>
+                    <a href="force.html" class="btn btn-default" role="button">Force</a>
+					<a href="http://www.d3js.org" class="btn btn-default" role="button">D3.js</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
 
-			//Original data
-			var dataset = {
-				people: [
-					{ name: "Adam", r: 10 },
-					{ name: "Bob", r: 10 },
-					{ name: "Carrie", r: 10 },
-					{ name: "Donovan", r: 10 },
-					{ name: "Edward", r: 40 },
-					{ name: "Felicity", r: 25 },
-					{ name: "George", r: 15 },
-					{ name: "Hannah", r: 5 },
-					{ name: "Iris", r: 30 },
-					{ name: "Jerry", r: 20 }
-				],
-				killed: [
-					{ source: 0, target: 1 },
-					{ source: 0, target: 2 },
-					{ source: 0, target: 3 },
-					{ source: 0, target: 4 },
-					{ source: 1, target: 5 },
-					{ source: 2, target: 5 },
-					{ source: 2, target: 5 },
-					{ source: 3, target: 4 },
-					{ source: 5, target: 8 },
-					{ source: 5, target: 9 },
-					{ source: 6, target: 7 },
-					{ source: 7, target: 8 },
-					{ source: 8, target: 9 }
-				]
-			};
 
-			//Initialize a default force layout, using the nodes and edges in dataset
-			var force = d3.layout.force()
-								 .nodes(dataset.people)
-								 .links(dataset.killed)
-								 .size([w, h])
-								 .linkDistance([100])
-								 .charge([-100])
-								 .start();
+<div class="container">
+	<h3>Force Chart</h3>
+	<p>We can model relationships between entities using a Force Chart. Use SVG to draw the
+    nodes and edges. The D3 Force layout provides a means of animating and interacting with the chart.</p>
+	<p>This example contains two data sets. 'People', which could be players in a game, and 'Killed' which captures
+    the details of which players kill other players.</p>
 
-			var colors = d3.scale.category10();
+	<div class="col-md-6">
+		<div id="draw_here"></div>
+	</div>
 
-			//Create SVG element
-			var svg = d3.select("body")
-						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
+	<div class="col-md-6">
 
-			//Create edges as lines
-			var lines = svg.selectAll("line")
-				.data(dataset.killed)
-				.enter()
-				.append("line")
-				.style("stroke", "#ccc")
-				.style("stroke-width", 1);
+        <pre>
 
-			//Create nodes as circles
-			var circles = svg.selectAll("circle")
-				.data(dataset.people)
-				.enter()
-				.append("circle")
-				.attr("r", function(d){
-                    return d.r;
-                })
-				.style("fill", function(d, i) {
-					return colors(i);
-				})
-				.attr("opacity", "0.5")
-				.call(force.drag);
+    //Width and height
+    var w = 500;
+    var h = 500;
 
-			var text = svg.selectAll("text")
-			   .data(dataset.people)
-			   .enter()
-			   .append("text")
-			   .text(function (d) {
-				   return d.name;
-			   })
-			   .attr("text-anchor", "middle")
-			   .attr("font-family", "sans-serif")
-			   .attr("font-size", "11px");
+    //Original data
+    var dataset = {
+        people: [
+            { name: "Adam", r: 10 },
+            { name: "Bob", r: 10 },
+            { name: "Carrie", r: 10 },
+            { name: "Donovan", r: 10 },
+            { name: "Edward", r: 40 },
+            { name: "Felicity", r: 25 },
+            { name: "George", r: 15 },
+            { name: "Hannah", r: 5 },
+            { name: "Iris", r: 30 },
+            { name: "Jerry", r: 20 }
+        ],
+        killed: [
+            { source: 0, target: 1 },
+            { source: 0, target: 2 },
+            { source: 0, target: 3 },
+            { source: 0, target: 4 },
+            { source: 1, target: 5 },
+            { source: 2, target: 5 },
+            { source: 2, target: 5 },
+            { source: 3, target: 4 },
+            { source: 5, target: 8 },
+            { source: 5, target: 9 },
+            { source: 6, target: 7 },
+            { source: 7, target: 8 },
+            { source: 8, target: 9 }
+        ]
+    };
 
-			//Every time the simulation "ticks", this will be called
-			force.on("tick", function() {
-				lines.attr("x1", function(d) { return d.source.x; })
-					 .attr("y1", function(d) { return d.source.y; })
-					 .attr("x2", function(d) { return d.target.x; })
-					 .attr("y2", function(d) { return d.target.y; });
+    // Initialize a default force layout,
+    // using the nodes and edges in dataset
+    var force = d3.layout.force()
+        .nodes(dataset.people)
+        .links(dataset.killed)
+        .size([w, h])
+        .linkDistance([200])
+        .charge([-10])
+        .start();
 
-				circles.attr("cx", function(d) { return d.x; })
-					 .attr("cy", function(d) { return d.y; });
+    var colors = d3.scale.category10();
 
-				text.attr("x", function(d) { return d.x; })
-					 .attr("y", function(d) { return d.y; });
-			});
-		</script>
+    //Create SVG element
+    var svg = d3.select("#draw_here")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+    //Create edges as lines
+    var lines = svg.selectAll("line")
+        .data(dataset.killed)
+        .enter()
+        .append("line")
+        .style("stroke", "#ccc")
+        .style("stroke-width", 1);
+
+    //Create nodes as circles
+    var circles = svg.selectAll("circle")
+        .data(dataset.people)
+        .enter()
+        .append("circle")
+        .attr("r", function(d){
+            return d.r;
+        })
+        .style("fill", function(d, i) {
+            return colors(i);
+        })
+        .attr("opacity", "0.5")
+        .call(force.drag);
+
+    var text = svg.selectAll("text")
+        .data(dataset.people)
+        .enter()
+        .append("text")
+        .text(function (d) {
+            return d.name;
+        })
+        .attr("text-anchor", "middle")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px");
+
+    //Every time the simulation "ticks", this will be called
+    force.on("tick", function() {
+        lines.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+        circles.attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; });
+
+        text.attr("x", function(d) { return d.x; })
+            .attr("y", function(d) { return d.y; });
+    });
+        </pre>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+    //Width and height
+    var w = 500;
+    var h = 500;
+
+    //Original data
+    var dataset = {
+        people: [
+            { name: "Adam", r: 10 },
+            { name: "Bob", r: 10 },
+            { name: "Carrie", r: 10 },
+            { name: "Donovan", r: 10 },
+            { name: "Edward", r: 40 },
+            { name: "Felicity", r: 25 },
+            { name: "George", r: 15 },
+            { name: "Hannah", r: 5 },
+            { name: "Iris", r: 30 },
+            { name: "Jerry", r: 20 }
+        ],
+        killed: [
+            { source: 0, target: 1 },
+            { source: 0, target: 2 },
+            { source: 0, target: 3 },
+            { source: 0, target: 4 },
+            { source: 1, target: 5 },
+            { source: 2, target: 5 },
+            { source: 2, target: 5 },
+            { source: 3, target: 4 },
+            { source: 5, target: 8 },
+            { source: 5, target: 9 },
+            { source: 6, target: 7 },
+            { source: 7, target: 8 },
+            { source: 8, target: 9 }
+        ]
+    };
+
+    //Initialize a default force layout, using the nodes and edges in dataset
+    var force = d3.layout.force()
+        .nodes(dataset.people)
+        .links(dataset.killed)
+        .size([w, h])
+        .linkDistance([200])
+        .charge([-10])
+        .start();
+
+    var colors = d3.scale.category10();
+
+    //Create SVG element
+    var svg = d3.select("#draw_here")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+    //Create edges as lines
+    var lines = svg.selectAll("line")
+        .data(dataset.killed)
+        .enter()
+        .append("line")
+        .style("stroke", "#ccc")
+        .style("stroke-width", 1);
+
+    //Create nodes as circles
+    var circles = svg.selectAll("circle")
+        .data(dataset.people)
+        .enter()
+        .append("circle")
+        .attr("r", function(d){
+            return d.r;
+        })
+        .style("fill", function(d, i) {
+            return colors(i);
+        })
+        .attr("opacity", "0.5")
+        .call(force.drag);
+
+    var text = svg.selectAll("text")
+        .data(dataset.people)
+        .enter()
+        .append("text")
+        .text(function (d) {
+            return d.name;
+        })
+        .attr("text-anchor", "middle")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px");
+
+    //Every time the simulation "ticks", this will be called
+    force.on("tick", function() {
+        lines.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+        circles.attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; });
+
+        text.attr("x", function(d) { return d.x; })
+            .attr("y", function(d) { return d.y; });
+    });
+</script>
+
 </body>
 </html>
