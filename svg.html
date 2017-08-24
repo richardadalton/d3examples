@@ -116,9 +116,9 @@
     var w = 500;
     var h = 200;
 
-    data1 = [50, 60, 70, 30, 20, 10];
-    data2 = [30, 80, 20, 40];
-    dataIndex = 1;
+    data1 = [[0, 50], [1, 60], [2, 70], [3, 30], [4, 20], [5, 10]];
+    data2 = [[0, 30], [1, 80], [2, 20], [3, 40]];
+    selectedData = data1;
 
     var colors = d3.scale.category10();
 
@@ -128,36 +128,55 @@
             .attr("width", w)
             .attr("height", h);
 
-    svg.selectAll("circle")
-            .data(data1)
-            .enter()
-            .append("circle")
-            .attr("cx", function (d, i) {
-                return 75 + (i * 80);
-            })
-            .attr("cy", h / 2)
-            .attr("r", function (d, i) {
-                return d;
-            })
-            .attr("fill", function(d, i) {
-                return colors(i);
-            })
-            .attr("opacity", "0.5");
+    draw_circles();
 
     d3.select("#buttons_here").append("button")
-            .text("change data")
-            .on("click",function(){
-                if (dataIndex==1) {
-                    dataIndex=2;  
-                } else   {
-                    dataIndex=1;
-                }
-                var circle = svg.selectAll("circle")
-                    .data(eval("data"+dataIndex));
+        .text("change data")
+        .on("click",function(){
+            if (selectedData==data1) {
+                selectedData=data2;  
+            } else   {
+                selectedData=data1;
+            }
+            draw_circles();
+        });//end click function
+
+
+    d3.select("#buttons_here").append("button")
+        .text("shuffle data")
+        .on("click",function(){
+            selectedData = shuffle(selectedData);
+            draw_circles();
+        });//end click function
+
+
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
+
+    function draw_circles() {
+        var circle = svg.selectAll("circle")
+                    .data(selectedData);
 
                 circle.exit().remove();//remove unneeded circles
-                    circle.enter().append("circle")
-                        .attr("r",0);//create any new circles needed
+                circle.enter().append("circle")
+                    .attr("r",0);//create any new circles needed
 
                 circle.transition()
                         .duration(500)
@@ -166,15 +185,14 @@
                         })
                         .attr("cy", h / 2)
                         .attr("r", function (d, i) {
-                            return d;
+                            return d[1];
                         })
                         .attr("fill", function(d, i) {
-                            return colors(i);
-                        });
-
-            });//end click function
-
-
+                            return colors(d[0]);
+                        })
+                        .attr("opacity", "0.5");
+;
+    }
 </script>
 
 </body>
