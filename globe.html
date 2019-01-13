@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!--<script type="text/javascript" src="d3/d3.v3.js"></script>-->
+
+    <title>d3 Examples</title>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="resources/d3logo.png">
+            </div>
+            <div class="col-md-10">
+                <h1 class="logo">D3 Examples</h1>
+                <h4>Richard Dalton</h4>
+                <div class="btn-group btn-group-md" role="group" aria-label="...">
+                    <a href="index.html" class="btn btn-default" role="button">Home</a>
+                    <a href="svg.html" class="btn btn-default" role="button">SVG</a>
+                    <a href="barChart.html" class="btn btn-default" role="button">Bar</a>
+                    <a href="pieChart.html" class="btn btn-default" role="button">Pie</a>
+                    <a href="bubbleChart.html" class="btn btn-default" role="button">Bubble</a>
+                    <a href="force.html" class="btn btn-default" role="button">Force</a>
+                    <a href="globe.html" class="btn btn-default" role="button">Globe</a>
+                    <a href="http://www.d3js.org" class="btn btn-default" role="button">D3.js</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="container">
+    <h3>Geo Chart</h3>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="x_rotation">X Axis Tilt</label>
+            <input class="form-control" id="x_rotation" placeholder="0" onchange="change_x_rotation()"/>
+        </div>
+
+        <div class="col">
+            <div class="form-group col-md-4">
+                <label for="y_rotation">Y Axis Tilt</label>
+                <input class="form-control" id="y_rotation" placeholder="0" onchange="change_y_rotation()"/>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group col-md-4">
+                <label for="z_rotation">Z Axis Tilt</label>
+                <input class="form-control" id="z_rotation" placeholder="0" onchange="change_z_rotation()"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="x_speed">X Speed</label>
+            <input class="form-control" id="x_speed" placeholder="0" onchange="change_x_speed()"/>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="y_speed">Y Speed</label>
+            <input class="form-control" id="y_speed" placeholder="0" onchange="change_y_speed()"/>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="z_speed">Z Speed</label>
+            <input class="form-control" id="z_speed" placeholder="0" onchange="change_z_speed()"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div id="draw-here">
+                <canvas width="800" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+
+
+<script type="text/javascript">
+
+    var x_speed = 0;
+    var y_speed = 0;
+    var z_speed = 0;
+
+    var x_rotation = 0;
+    var y_rotation = 1;
+    var z_rotation = 0;
+
+    function change_x_speed() {
+        x_speed = parseFloat(document.getElementById("x_speed").value);
+    }
+
+    function change_y_speed() {
+        y_speed = parseFloat(document.getElementById("y_speed").value);
+    }
+
+    function change_z_speed() {
+        z_speed = parseFloat(document.getElementById("z_speed").value);
+    }
+
+    function change_x_rotation() {
+        x_rotation = parseFloat(document.getElementById("x_rotation").value);
+    }
+
+    function change_y_rotation() {
+        y_rotation = parseFloat(document.getElementById("y_rotation").value);
+    }
+
+    function change_z_rotation() {
+        z_rotation = parseFloat(document.getElementById("z_rotation").value);
+    }
+
+    var geojson = {};
+
+    var context = d3.select('#draw-here canvas')
+        .node()
+        .getContext('2d');
+
+    var projection = d3.geoOrthographic()
+        .scale(150);
+
+    var geoGenerator = d3.geoPath()
+        .projection(projection)
+        .pointRadius(4)
+        .context(context);
+
+
+    function update() {
+        projection.rotate([y_rotation, x_rotation, z_rotation]);
+
+        context.clearRect(0, 0, 800, 400);
+
+        context.lineWidth = 0.5;
+        context.strokeStyle = '#333';
+
+        context.beginPath();
+        geoGenerator({type: 'FeatureCollection', features: geojson.features});
+        context.stroke();
+
+        // Graticule
+        var graticule = d3.geoGraticule();
+        context.beginPath();
+        context.strokeStyle = '#ccc';
+        geoGenerator(graticule());
+        context.stroke();
+
+        x_rotation += x_speed;
+        y_rotation += y_speed;
+        z_rotation += z_speed;
+    }
+
+
+
+    // REQUEST DATA
+    d3.json('https://gist.githubusercontent.com/d3indepth/f28e1c3a99ea6d84986f35ac8646fac7/raw/c58cede8dab4673c91a3db702d50f7447b373d98/ne_110m_land.json', function(err, json) {
+        geojson = json;
+        window.setInterval(update, 100);
+    })
+
+</script>
+
+</body>
+</html>
