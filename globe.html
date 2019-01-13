@@ -38,39 +38,39 @@
     <h3>Geo Chart</h3>
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="x_rotation">X Axis Tilt</label>
-            <input class="form-control" id="x_rotation" placeholder="0" onchange="change_x_rotation()"/>
+            <label for="x_rotation">X Axis Tilt</label> <span id="x_rotation_badge" class="badge badge-light">0</span>
+            <input type="range" min="-180" max="180" value="0" class="slider" id="x_rotation" oninput="change_x_rotation()">
         </div>
 
         <div class="col">
             <div class="form-group col-md-4">
-                <label for="y_rotation">Y Axis Tilt</label>
-                <input class="form-control" id="y_rotation" placeholder="0" onchange="change_y_rotation()"/>
+                <label for="y_rotation">Y Axis Tilt</label> <span id="y_rotation_badge" class="badge badge-light">0</span>
+                <input type="range" min="-180" max="180" value="0" class="slider" id="y_rotation" oninput="change_y_rotation()">
             </div>
         </div>
 
         <div class="col">
             <div class="form-group col-md-4">
-                <label for="z_rotation">Z Axis Tilt</label>
-                <input class="form-control" id="z_rotation" placeholder="0" onchange="change_z_rotation()"/>
+                <label for="z_rotation">Z Axis Tilt</label> <span id="z_rotation_badge" class="badge badge-light">0</span>
+                <input type="range" min="-180" max="180" value="0" class="slider" id="z_rotation" oninput="change_z_rotation()">
             </div>
         </div>
     </div>
 
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="x_speed">X Speed</label>
-            <input class="form-control" id="x_speed" placeholder="0" onchange="change_x_speed()"/>
+            <label for="x_speed">X Speed</label> <span id="x_speed_badge" class="badge badge-light">0</span>
+            <input type="range" min="-180" max="180" value="0" class="slider" id="x_speed" oninput="change_x_speed()">
         </div>
 
         <div class="form-group col-md-4">
-            <label for="y_speed">Y Speed</label>
-            <input class="form-control" id="y_speed" placeholder="0" onchange="change_y_speed()"/>
+            <label for="y_speed">Y Speed</label> <span id="y_speed_badge" class="badge badge-light">0</span>
+            <input type="range" min="-180" max="180" value="0" class="slider" id="y_speed" oninput="change_y_speed()">
         </div>
 
         <div class="form-group col-md-4">
-            <label for="z_speed">Z Speed</label>
-            <input class="form-control" id="z_speed" placeholder="0" onchange="change_z_speed()"/>
+            <label for="z_speed">Z Speed</label> <span id="z_speed_badge" class="badge badge-light">0</span>
+            <input type="range" min="-180" max="180" value="0" class="slider" id="z_speed" oninput="change_z_speed()">
         </div>
     </div>
 
@@ -83,8 +83,8 @@
     </div>
 
 
-    <div class="col-md-6">
-
+    <div class="row">
+        Based on this Example from <a href="https://d3indepth.com/geographic/">D3 In Depth</a>
     </div>
 </div>
 
@@ -103,26 +103,32 @@
 
     function change_x_speed() {
         x_speed = parseFloat(document.getElementById("x_speed").value);
+        document.getElementById("x_speed_badge").innerHTML = x_speed;
     }
 
     function change_y_speed() {
         y_speed = parseFloat(document.getElementById("y_speed").value);
+        document.getElementById("y_speed_badge").innerHTML = y_speed;
     }
 
     function change_z_speed() {
         z_speed = parseFloat(document.getElementById("z_speed").value);
+        document.getElementById("z_speed_badge").innerHTML = z_speed;
     }
 
     function change_x_rotation() {
         x_rotation = parseFloat(document.getElementById("x_rotation").value);
+        document.getElementById("x_rotation_badge").innerHTML = x_rotation;
     }
 
     function change_y_rotation() {
         y_rotation = parseFloat(document.getElementById("y_rotation").value);
+        document.getElementById("x_rotation_badge").innerHTML = y_rotation;
     }
 
     function change_z_rotation() {
         z_rotation = parseFloat(document.getElementById("z_rotation").value);
+        document.getElementById("x_rotation_badge").innerHTML = z_rotation;
     }
 
     var geojson = {};
